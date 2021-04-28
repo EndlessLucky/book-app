@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
+import { selectBookCollection, selectBooks } from './state/books.selectors';
+import { retrievedBookList, addBook, removeBook } from './state/books.actions';
+import { GoogleBooksService } from './book-list/books.service';
 
 @Component({
   selector: 'book-app-root',
@@ -6,5 +11,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'book-app';
+  books$ = this.store.pipe(select(selectBooks));
+  bookCollection$ = this.store.pipe(select(selectBookCollection)); 
+  onAdd(bookId: any): void {
+    this.store.dispatch(addBook({ bookId }));
+  }
+  onRemove(bookId: any): void {
+    this.store.dispatch(removeBook({ bookId }));
+  }
+  constructor(
+    private booksService: GoogleBooksService,
+    private store: Store
+  ) {}
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngOnInit(): void {
+    this.booksService
+      .getBooks()
+      .subscribe((Book) => this.store.dispatch(retrievedBookList({ Book })));
+  }
 }
