@@ -6,13 +6,14 @@ import { retrievedBookList, addBook, removeBook } from './state/books.actions';
 import { GoogleBooksService } from './book-list/books.service';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'book-app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   books$ = this.store.pipe(select(selectBooks));
-  bookCollection$ = this.store.pipe(select(selectBookCollection)); 
+  bookCollection$ = this.store.pipe(select(selectBookCollection));
   onAdd(bookId: any): void {
     this.store.dispatch(addBook({ bookId }));
   }
@@ -27,6 +28,7 @@ export class AppComponent {
   ngOnInit(): void {
     this.booksService
       .getBooks()
+      // tslint:disable-next-line: deprecation
       .subscribe((Book) => this.store.dispatch(retrievedBookList({ Book })));
   }
 }
