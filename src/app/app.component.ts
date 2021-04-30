@@ -12,8 +12,8 @@ import { GoogleBooksService } from './book-list/books.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  books$ = this.store.pipe(select(selectBooks));
-  bookCollection$ = this.store.pipe(select(selectBookCollection));
+  // books$ = this.store.pipe(select(selectBooks));
+  // bookCollection$ = this.store.pipe(select(selectBookCollection));
   onAdd(bookId: any): void {
     this.store.dispatch(addBook({ bookId }));
   }
